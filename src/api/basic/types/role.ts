@@ -5,9 +5,8 @@ export interface Role {
   keyword: string;
   status: boolean;
   description: string;
-  department_ids: string;
+  department_ids: string | number[];
   data_scope: string;
-  keys: number[];
   created_at: number;
   updated_at: number;
 }

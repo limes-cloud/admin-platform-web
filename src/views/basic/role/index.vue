@@ -11,7 +11,7 @@
       <Table
         :columns="columns"
         :loading="loading"
-        :data="[tableData]"
+        :data="tableData"
         :size="size"
         @add="handleTableAdd"
         @update="handleTableUpdate"
@@ -20,7 +20,7 @@
       ></Table>
       <Form
         ref="formRef"
-        :roles="[tableData]"
+        :roles="tableData"
         :departments="departments"
         :form="form"
         @add="handleAdd"
@@ -68,7 +68,7 @@
   const form = ref<Role>({} as Role);
   const { setLoading } = useLoading(true);
   const loading = ref(false);
-  const tableData = ref<TableData>({});
+  const tableData = ref<TableData[]>();
   const departments = ref<Department[]>([]);
   const menus = ref<Menu[]>([]);
   const menuKeys = ref<number[]>([]);
@@ -125,7 +125,7 @@
     setLoading(true);
     try {
       const { data } = await getRoleTree();
-      tableData.value = data;
+      tableData.value = [data];
     } finally {
       setLoading(false);
     }
@@ -169,6 +169,7 @@
 
   //  处理tool按钮新建
   const handleToolAdd = () => {
+    form.value = {} as Role;
     formRef.value.showAddDrawer();
   };
 

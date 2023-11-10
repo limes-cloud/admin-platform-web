@@ -75,7 +75,7 @@
   const form = ref<User>({} as User);
   const { setLoading } = useLoading(true);
   const loading = ref(false);
-  const tableData = ref<TableData[]>([]);
+  const tableData = ref<TableData[]>();
   const size = ref<TableSize>('medium');
   const departments = ref<Department>({} as Department);
   const roles = ref<Role>({} as Role);
@@ -198,12 +198,12 @@
       page: 1,
       page_size: pageSize,
     };
-    if (req.time) {
-      const satrt = req.time[0];
-      const end = req.time[1];
-      searchForm.value.start_time = satrt;
-      searchForm.value.end_time = end;
-    }
+    // if (req.time) {
+    //   const satrt = req.time[0];
+    //   const end = req.time[1];
+    //   searchForm.value.start_time = satrt;
+    //   searchForm.value.end_time = end;
+    // }
 
     handleGet();
   };
@@ -226,7 +226,7 @@
   const handleUpdate = async (data: User) => {
     await updateUser(data);
     handleGet();
-    Message.success('修改成功');
+    Message.success('更新成功');
   };
 
   // 处理数据删除
@@ -272,6 +272,7 @@
 
   //  处理tool按钮新建
   const handleToolAdd = () => {
+    form.value = {} as User;
     formRef.value.showAddDrawer();
   };
 

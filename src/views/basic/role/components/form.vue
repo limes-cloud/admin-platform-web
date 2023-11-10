@@ -25,7 +25,7 @@
         :validate-trigger="['change', 'input']"
       >
         <a-cascader
-          v-model="form.parent_id"
+          v-model="formData.parent_id"
           check-strictly
           :options="roles"
           :field-names="{ value: 'id', label: 'name' }"
@@ -44,7 +44,11 @@
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-input v-model="form.name" allow-clear placeholder="请输入角色名称" />
+        <a-input
+          v-model="formData.name"
+          allow-clear
+          placeholder="请输入角色名称"
+        />
       </a-form-item>
       <a-form-item
         field="keyword"
@@ -58,7 +62,7 @@
         :validate-trigger="['change', 'input']"
       >
         <a-input
-          v-model="form.keyword"
+          v-model="formData.keyword"
           allow-clear
           placeholder="请输入角色标识"
         />
@@ -74,7 +78,7 @@
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-radio-group v-model="form.status" :default-value="true">
+        <a-radio-group v-model="formData.status" :default-value="true">
           <a-radio :value="true">启用</a-radio>
           <a-radio :value="false">禁用</a-radio>
         </a-radio-group>
@@ -90,7 +94,11 @@
         ]"
         :validate-trigger="['change', 'input']"
       >
-        <a-select v-model="form.data_scope" allow-search placeholder="数据权限">
+        <a-select
+          v-model="formData.data_scope"
+          allow-search
+          placeholder="数据权限"
+        >
           <template v-for="(item, index) in dataScopeTypes" :key="index">
             <a-option :value="item.value">{{ item.label }}</a-option>
           </template>
@@ -98,8 +106,8 @@
       </a-form-item>
 
       <a-form-item
-        v-if="form.data_scope === 'CUSTOM'"
-        field="keys"
+        v-if="formData.data_scope === 'CUSTOM'"
+        field="department_ids"
         label="选择部门"
         :rules="[
           {
@@ -109,10 +117,16 @@
         ]"
         :validate-trigger="['change']"
       >
-        <SelectDepartment
-          v-model:keys="form.keys"
-          :tree="departments"
-        ></SelectDepartment>
+        <a-cascader
+          :options="departments"
+          :default-value="formData.department_ids"
+          :style="{ width: '320px' }"
+          check-strictly
+          :field-names="{ value: 'id', label: 'name' }"
+          placeholder="请选择部门"
+          multiple
+          :max-tag-count="3"
+        />
       </a-form-item>
 
       <a-form-item
@@ -127,7 +141,7 @@
         :validate-trigger="['change', 'input']"
       >
         <a-textarea
-          v-model="form.description"
+          v-model="formData.description"
           allow-clear
           placeholder="请输入角色描述"
         />
@@ -142,7 +156,6 @@
   import { SelectOptionData, TableData } from '@arco-design/web-vue';
   import { Department } from '@/api/basic/types/department';
   import { join, split } from 'lodash';
-  import SelectDepartment from './select-department.vue';
 
   const formRef = ref();
   const visible = ref(false);
@@ -150,11 +163,11 @@
 
   const props = defineProps<{
     departments: Department[];
-    roles: TableData[];
+    roles?: TableData[];
     form: Role;
   }>();
 
-  const form = ref<Role>({} as Role);
+  const formData = ref<Role>({} as Role);
   const emit = defineEmits(['add', 'update']);
   const dataScopeTypes = computed<SelectOptionData[]>(() => [
     {
@@ -182,7 +195,7 @@
   watch(
     () => props.form,
     (val) => {
-      form.value = { ...val, keys: [] };
+      formData.value = { ...val };
       const ids: number[] = [];
       if (val.department_ids) {
         const arr = split(val.department_ids as string, ',');
@@ -190,7 +203,7 @@
           ids.push(Number(id));
         });
       }
-      form.value.keys = ids;
+      formData.value.department_ids = ids;
     }
   );
 
@@ -216,14 +229,14 @@
       return false;
     }
 
-    if (form.value.keys) {
-      form.value.department_ids = join(form.value.keys, ',');
+    if (formData.value.department_ids) {
+      formData.value.department_ids = join(formData.value.department_ids, ',');
     }
 
     if (isAdd.value) {
-      emit('add', { ...form.value });
+      emit('add', { ...formData.value });
     } else {
-      emit('update', { ...form.value });
+      emit('update', { ...formData.value });
     }
     return true;
   };

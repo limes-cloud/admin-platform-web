@@ -49,7 +49,7 @@
   const form = ref<Menu>({} as Menu);
   const { setLoading } = useLoading(true);
   const loading = ref(false);
-  const tableData = ref<TableData[]>([]);
+  const tableData = ref<TableData[]>();
   const size = ref<TableSize>('medium');
   const columns = ref<TableCloumn[]>([
     {

@@ -13,3 +13,5 @@ declare module 'vue' {
     $hasPermission: DetermineFunc;
   }
 }
+
+declare module 'js-yaml';

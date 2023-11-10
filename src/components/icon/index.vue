@@ -4,6 +4,7 @@
   interface Props {
     name?: string;
     size?: number;
+    color?: string;
   }
   export default defineComponent({
     props: {

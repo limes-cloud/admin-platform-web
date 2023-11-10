@@ -1,8 +1,7 @@
 <template>
-  <a-row>
+  <a-row v-permission="'basic:user:query'">
     <a-col :flex="1">
       <a-form
-        v-permission="'basic:user:query'"
         :model="form"
         :label-col-props="{ span: 6 }"
         :wrapper-col-props="{ span: 18 }"

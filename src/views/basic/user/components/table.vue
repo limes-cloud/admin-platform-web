@@ -148,7 +148,7 @@
   const props = defineProps<{
     columns: TableCloumn[];
     loading: boolean;
-    data: TableData[];
+    data?: TableData[];
     size: TableSize;
     pagination: Pagination;
     total: number;

@@ -345,7 +345,7 @@
   ]);
 
   const props = defineProps<{
-    menus: TableData[];
+    menus?: TableData[];
     form: Menu;
   }>();
 

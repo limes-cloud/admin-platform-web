@@ -13,6 +13,7 @@ import App from './App.vue';
 // https://arco.design/docs/designlab/use-theme-package
 import '@/assets/style/global.less';
 import '@/utils/interceptor';
+
 import { formatTime, parseTime } from './utils/time';
 import { densityList, genderList } from './utils/consts';
 import { hasPermission } from './utils/permission';

@@ -67,7 +67,7 @@
   defineProps<{
     columns: TableCloumn[];
     loading: boolean;
-    data: TableData[];
+    data?: TableData[];
     size: TableSize;
   }>();
 </script>

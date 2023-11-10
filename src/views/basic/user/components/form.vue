@@ -123,23 +123,6 @@
           allow-search
         />
       </a-form-item>
-
-      <!-- <a-form-item
-        field="status"
-        label="用户状态"
-        :rules="[
-          {
-            required: true,
-            message: '用户状态是必填项',
-          },
-        ]"
-        :validate-trigger="['change', 'input']"
-      >
-        <a-radio-group v-model="form.status">
-          <a-radio :value="true">启用</a-radio>
-          <a-radio :value="false">禁用</a-radio>
-        </a-radio-group>
-      </a-form-item> -->
     </a-form>
   </a-drawer>
 </template>

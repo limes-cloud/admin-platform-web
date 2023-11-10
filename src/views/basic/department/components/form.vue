@@ -97,7 +97,7 @@
   const isAdd = ref(false);
 
   const props = defineProps<{
-    departments: TableData[];
+    departments?: TableData[];
     form: Department;
   }>();
 

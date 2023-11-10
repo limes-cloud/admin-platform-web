@@ -11,7 +11,7 @@
       <Table
         :columns="columns"
         :loading="loading"
-        :data="[tableData]"
+        :data="tableData"
         :size="size"
         @add="handleTableAdd"
         @update="handleTableUpdate"
@@ -19,7 +19,7 @@
       ></Table>
       <Form
         ref="formRef"
-        :departments="[tableData]"
+        :departments="tableData"
         :form="form"
         @add="handleAdd"
         @update="handleUpdate"
@@ -32,7 +32,7 @@
   import { ref } from 'vue';
   import { TableData } from '@arco-design/web-vue/es/table/interface';
   import { TableCloumn, TableSize } from '@/types/global';
-  import {
+  import department, {
     addDepartment,
     deleteDepartment,
     getDepartmentTree,
@@ -49,7 +49,7 @@
   const form = ref<Department>({} as Department);
   const { setLoading } = useLoading(true);
   const loading = ref(false);
-  const tableData = ref<TableData>({});
+  const tableData = ref<TableData[]>();
   const size = ref<TableSize>('medium');
   const columns = ref<TableCloumn[]>([
     {
@@ -89,7 +89,7 @@
     setLoading(true);
     try {
       const { data } = await getDepartmentTree();
-      tableData.value = data;
+      tableData.value = [data];
     } finally {
       setLoading(false);
     }
@@ -108,7 +108,7 @@
   const handleUpdate = async (data: Department) => {
     await updateDepartment(data);
     handleGet();
-    Message.success('删除成功');
+    Message.success('更新成功');
   };
 
   // 处理数据删除
@@ -120,6 +120,7 @@
 
   //  处理tool按钮新建
   const handleToolAdd = () => {
+    form.value = {} as Department;
     formRef.value.showAddDrawer();
   };
 

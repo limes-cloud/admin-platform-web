@@ -9,7 +9,7 @@ const useAppStore = defineStore('app', {
     const setting: AppState = {
       ...defaultSettings,
       menus: new Map(),
-      permissions: [],
+      permissions: new Map(),
       apps: [],
       app: '',
       homes: new Map(),
