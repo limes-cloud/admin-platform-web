@@ -16,6 +16,7 @@ RUN pnpm build
 
 # 基础镜像
 FROM nginx
+
 # 删除原有的default.conf文件
 RUN rm /etc/nginx/conf.d/default.conf
 # 增加自定义nginx.conf文件到对应目录
