@@ -5,7 +5,7 @@ WORKDIR /app/
 ADD package.json /app/
 
 # 设置 yarn 用淘宝源安装包
-RUN pnpm config set registry=https://registry.npmmirror.com/
+# RUN pnpm config set registry=https://registry.npmmirror.com/
 
 ADD . /app/
 
