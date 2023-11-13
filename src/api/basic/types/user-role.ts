@@ -5,3 +5,7 @@ export interface UserRole {
   role_id: number;
   role?: Role;
 }
+
+export interface SwitchUserRole {
+  token: string;
+}

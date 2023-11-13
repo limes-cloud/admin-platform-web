@@ -346,17 +346,17 @@
 
   const props = defineProps<{
     menus?: TableData[];
-    form: Menu;
+    data: Menu;
   }>();
 
   const form = ref({} as Menu);
   const emit = defineEmits(['add', 'update']);
 
   watch(
-    () => props.form,
+    () => props.data,
     (val) => {
       form.value = val;
-      if (props.form.weight === undefined) {
+      if (props.data.weight === undefined) {
         form.value.weight = 0;
       }
     }

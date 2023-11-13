@@ -26,6 +26,7 @@
       >
         <a-input
           v-model="form.keyword"
+          :disabled="!isAdd"
           placeholder="请输入变量标识"
           allow-clear
         />
@@ -99,7 +100,7 @@
           multiple
           :max-tag-count="2"
           :scrollbar="true"
-          :options="servers"
+          :options="innerServers"
           allow-search
           :field-names="{ value: 'id', label: 'name' }"
           @search="search"
@@ -137,32 +138,32 @@
   const formRef = ref();
   const visible = ref(false);
   const isAdd = ref(false);
-  const servers = ref<SelectOptionData[]>([]);
+  const innerServers = ref<SelectOptionData[]>([]);
 
   const props = defineProps<{
-    form: Resource;
-    servers?: SelectOptionData[];
+    data: Resource;
+    servers: SelectOptionData[];
   }>();
 
-  const form = ref({ ...props.form });
+  const form = ref({ ...props.data });
   const emit = defineEmits(['add', 'update']);
 
   watch(
-    () => props.form,
+    () => props.data,
     (val) => {
       form.value = val;
-    }
+    },
+    { deep: true }
   );
 
   watch(
     () => props.servers,
     (val) => {
-      val?.forEach((item) => {
+      val.forEach((item) => {
         if (!form.value.servers) form.value.servers = [];
-        if (!servers.value) servers.value = [];
 
         item.name = `${item.name}(${item.keyword})`;
-        servers.value.push(item);
+        innerServers.value.push(item);
         form.value.servers.push(item.id);
       });
     }
@@ -217,12 +218,12 @@
     });
 
     const selectd: SelectOptionData[] = [];
-    servers.value.forEach((item) => {
+    innerServers.value.forEach((item) => {
       if (form.value.servers.includes(item.id as number)) {
         selectd.push(item);
       }
     });
 
-    servers.value = searchd.concat(selectd);
+    innerServers.value = searchd.concat(selectd);
   };
 </script>

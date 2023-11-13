@@ -165,10 +165,11 @@
   watch(
     () => props.value,
     (val) => {
-      if (val) {
-        setEditValue(val);
-        content.value = val;
+      if (!val) {
+        val = '';
       }
+      setEditValue(val);
+      content.value = val;
     },
     { deep: true }
   );

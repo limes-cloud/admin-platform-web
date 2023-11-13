@@ -27,6 +27,10 @@ axios.interceptors.request.use(
       }
       config.headers.Authorization = `Bearer ${token}`;
     }
+    if (!config.headers) {
+      config.headers = {};
+    }
+    config.headers['Content-Type'] = 'application/json';
     return config;
   },
   (error) => {
@@ -57,6 +61,7 @@ axios.interceptors.response.use(
   (error) => {
     const res = error.response;
     const { config } = res;
+
     // 重新登陆过期处理
     if (res.status === 401 && res.data.reason === 'UNAUTHORIZED') {
       if (!isRefresh) {

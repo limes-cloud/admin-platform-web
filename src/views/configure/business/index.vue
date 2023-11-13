@@ -27,7 +27,7 @@
       ></Table>
       <Form
         ref="formRef"
-        :form="form"
+        :data="form"
         :servers="servers"
         @add="handleAdd"
         @update="handleUpdate"
@@ -83,7 +83,7 @@
   const total = ref(0);
   const envs = ref<Env[]>([]);
   const values = ref<BusinessValue[]>([]);
-  const current = ref<Business>({} as Business);
+  const current = ref<Business>({ type: '' } as Business);
   const searchForm = ref<PageBusinessReq>({
     page: 1,
     page_size: 10,

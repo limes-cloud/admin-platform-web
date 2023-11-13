@@ -6,10 +6,31 @@ import { removeRouteListener } from '@/utils/route-listener';
 import { LoginReq } from '@/api/basic/types/auth';
 import rsa from '@/utils/rsa';
 import { User } from '@/api/basic/types/user';
+import { switchUserRole } from '@/api/basic/user-role';
+import Message from '@arco-design/web-vue/es/message';
 import useAppStore from '../app';
 
 const useUserStore = defineStore('user', {
-  state: (): User => ({} as User),
+  state: (): User => ({
+    id: 0,
+    department_id: 0,
+    role_id: 0,
+    role_ids: [],
+    name: '',
+    nickname: '',
+    gender: '',
+    phone: '',
+    avatar: '',
+    email: '',
+    status: false,
+    disabled: '',
+    last_login: 0,
+    created_at: 0,
+    updated_at: 0,
+    role: undefined,
+    roles: undefined,
+    department: undefined,
+  }),
 
   getters: {
     userInfo(state: User): User {
@@ -18,11 +39,15 @@ const useUserStore = defineStore('user', {
   },
 
   actions: {
-    switchRoles() {
-      return new Promise((resolve) => {
-        // this.role = this.role === 'user' ? 'admin' : 'user';
-        resolve(this.role);
-      });
+    async switchRoles(id: number) {
+      const { data } = await switchUserRole(id);
+      Message.success('切换成功');
+      // 清楚数据
+      this.clear();
+      // 重新设置token
+      setToken(data.token);
+      // 刷新界面
+      window.location.reload();
     },
     // Set user's information
     setInfo(partial: Partial<User>) {

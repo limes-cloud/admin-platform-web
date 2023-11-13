@@ -1,8 +1,14 @@
 import axios from 'axios';
-import { UserRole } from './types/user-role';
+import { SwitchUserRole, UserRole } from './types/user-role';
 
 export function currentUserRoles() {
   return axios.get<UserRole[]>('/basic/v1/user/current/roles');
+}
+
+export function switchUserRole(id: number) {
+  return axios.post<SwitchUserRole>('/basic/v1/user/role/switch', {
+    role_id: id,
+  });
 }
 
 export function getUserRoles(id: number) {

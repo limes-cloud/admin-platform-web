@@ -26,7 +26,7 @@
       ></Table>
       <Form
         ref="formRef"
-        :form="form"
+        :data="form"
         :servers="servers"
         @add="handleAdd"
         @update="handleUpdate"
@@ -77,7 +77,7 @@
   const { setLoading } = useLoading(true);
   const loading = ref(false);
   const tableData = ref<TableData[]>();
-  const servers = ref<Server[]>();
+  const servers = ref<Server[]>([]);
   const size = ref<TableSize>('medium');
   const total = ref(0);
   const envs = ref<Env[]>([]);

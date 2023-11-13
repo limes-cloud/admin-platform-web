@@ -14,7 +14,7 @@ export interface User {
   email: string;
   status: boolean;
   disabled: string;
-  last_login: string;
+  last_login: number;
   token?: string;
   password?: string;
   created_at: number;

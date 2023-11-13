@@ -139,14 +139,14 @@
   const props = defineProps<{
     departments: CascaderOption;
     roles: CascaderOption;
-    form: User;
+    data: User;
   }>();
 
-  const form = ref({});
+  const form = ref({} as User);
   const emit = defineEmits(['add', 'update']);
 
   watch(
-    () => props.form,
+    () => props.data,
     (val) => {
       form.value = val;
     }

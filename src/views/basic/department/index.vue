@@ -20,7 +20,7 @@
       <Form
         ref="formRef"
         :departments="tableData"
-        :form="form"
+        :data="form"
         @add="handleAdd"
         @update="handleUpdate"
       ></Form>

@@ -25,7 +25,7 @@
       ></Table>
       <Form
         ref="formRef"
-        :form="form"
+        :data="form"
         @add="handleAdd"
         @update="handleUpdate"
       ></Form>

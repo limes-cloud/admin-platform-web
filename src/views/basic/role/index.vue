@@ -22,7 +22,7 @@
         ref="formRef"
         :roles="tableData"
         :departments="departments"
-        :form="form"
+        :data="form"
         @add="handleAdd"
         @update="handleUpdate"
       ></Form>
@@ -169,7 +169,7 @@
 
   //  处理tool按钮新建
   const handleToolAdd = () => {
-    form.value = {} as Role;
+    form.value = { status: true } as Role;
     formRef.value.showAddDrawer();
   };
 
@@ -180,7 +180,7 @@
   };
 
   const handleTableAdd = (id: number) => {
-    form.value = { parent_id: id } as Role;
+    form.value = { parent_id: id, status: true } as Role;
     formRef.value.showAddDrawer();
   };
 

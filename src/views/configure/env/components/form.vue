@@ -93,14 +93,14 @@
   const isAdd = ref(false);
 
   const props = defineProps<{
-    form: Env;
+    data: Env;
   }>();
 
-  const form = ref({});
+  const form = ref({ ...props.data });
   const emit = defineEmits(['add', 'update']);
 
   watch(
-    () => props.form,
+    () => props.data,
     (val) => {
       form.value = val;
     }

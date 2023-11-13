@@ -8,7 +8,7 @@
   >
     <a-form
       ref="formRef"
-      :model="form"
+      :model="formData"
       label-align="left"
       layout="horizontal"
       auto-label-width
@@ -164,10 +164,10 @@
   const props = defineProps<{
     departments: Department[];
     roles?: TableData[];
-    form: Role;
+    data: Role;
   }>();
 
-  const formData = ref<Role>({} as Role);
+  const formData = ref({ ...props.data });
   const emit = defineEmits(['add', 'update']);
   const dataScopeTypes = computed<SelectOptionData[]>(() => [
     {
@@ -193,7 +193,7 @@
   ]);
 
   watch(
-    () => props.form,
+    () => props.data,
     (val) => {
       formData.value = { ...val };
       const ids: number[] = [];

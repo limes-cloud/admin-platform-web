@@ -93,12 +93,24 @@
             <img v-else alt="avatar" :src="$logo" />
           </a-avatar>
           <template #content>
-            <a-doption>
-              <a-space @click="switchRoles">
-                <icon-tag />
-                <span> 切换角色 </span>
-              </a-space>
-            </a-doption>
+            <a-dsubmenu v-if="roles.length > 1" trigger="hover">
+              <template #default>
+                <a-space>
+                  <icon-tag />
+                  <span> 切换角色</span>
+                </a-space>
+              </template>
+              <template #content>
+                <template v-for="item in roles" :key="item.keyword">
+                  <a-doption
+                    :disabled="userStore.role_id == item.id"
+                    @click="switchRoles(item.id)"
+                    >{{ item.name }}</a-doption
+                  >
+                </template>
+              </template>
+            </a-dsubmenu>
+
             <a-doption>
               <a-space @click="$router.push({ name: 'Info' })">
                 <icon-user />
@@ -126,20 +138,26 @@
 
 <script lang="tsx" setup>
   import { computed, ref, inject } from 'vue';
-  import { Message } from '@arco-design/web-vue';
   import { useDark, useToggle, useFullscreen } from '@vueuse/core';
   import { useAppStore, useUserStore } from '@/store';
   import useUser from '@/hooks/user';
+  import { Role } from '@/api/basic/types/role';
   import App from './app.vue';
   import MessageBox from '../message-box/index.vue';
 
   const appStore = useAppStore();
   const userStore = useUserStore();
+
   const { logout } = useUser();
   const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
   const avatar = computed(() => {
     return userStore.avatar;
   });
+
+  const roles = computed((): Role[] => {
+    return userStore.roles as Role[];
+  });
+
   const theme = computed(() => {
     return appStore.theme;
   });
@@ -172,9 +190,8 @@
   const handleLogout = () => {
     logout();
   };
-  const switchRoles = async () => {
-    const res = await userStore.switchRoles();
-    Message.success(res as string);
+  const switchRoles = async (role: number) => {
+    userStore.switchRoles(role);
   };
   const toggleDrawerMenu = inject('toggleDrawerMenu') as () => void;
 </script>

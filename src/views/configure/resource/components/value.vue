@@ -42,17 +42,17 @@
 <script lang="ts" setup>
   import { ResourceValue } from '@/api/configure/types/resource-value';
   import { SelectOptionData } from '@arco-design/web-vue/es/select/interface';
-  import { ref, watch, computed } from 'vue';
+  import { ref, watch } from 'vue';
   import CodeEditor from '@/components/code-editor/index.vue';
   import { Message } from '@arco-design/web-vue';
 
   const formRef = ref();
   const visible = ref(false);
-  const envs = ref<SelectOptionData[]>([]);
+  // const envs = ref<SelectOptionData[]>([]);
 
   const props = defineProps<{
     values: ResourceValue[];
-    envs?: SelectOptionData[];
+    envs: SelectOptionData[];
   }>();
 
   const form = ref<Record<string, string>>({});
@@ -61,18 +61,10 @@
   const emit = defineEmits(['update']);
 
   watch(
-    () => props.envs,
-    (val) => {
-      if (!val) return;
-      envs.value = val;
-      // 重新修改表单项
-    }
-  );
-
-  watch(
     () => props.values,
     (val) => {
       if (!val) return;
+      form.value = {};
       val.forEach((item) => {
         form.value[item.environment_id] = item.values;
       });
@@ -99,7 +91,7 @@
     const list: ResourceValue[] = [];
     // 组装数据
     try {
-      envs.value.forEach((item) => {
+      props.envs.forEach((item) => {
         const content = JSON.stringify(JSON.parse(form.value[item.id]));
         list.push({
           env_keyword: item.keyword,

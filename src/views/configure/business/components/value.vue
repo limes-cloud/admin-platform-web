@@ -68,10 +68,16 @@
 
           <template v-if="type === 'object'">
             <CodeEditor
-              v-model="form[String(item.id)]"
+              :id="String(item.id)"
+              :value="cloneForm[String(item.id)]"
               :style="{ width: '100%', height: '150px' }"
               :show-folding="false"
               :show-line="false"
+              @change="
+                (val, id) => {
+                  form[id] = val;
+                }
+              "
             ></CodeEditor>
           </template>
         </a-form-item>
@@ -88,30 +94,21 @@
 
   const formRef = ref();
   const visible = ref(false);
-  const envs = ref<SelectOptionData[]>([]);
 
   const props = defineProps<{
-    type?: string;
+    type: string;
     values: BusinessValue[];
-    envs?: SelectOptionData[];
+    envs: SelectOptionData[];
   }>();
 
+  const cloneForm = ref<Record<string, any>>({});
   const form = ref<Record<string, any>>({});
   const emit = defineEmits(['update']);
 
   watch(
-    () => props.envs,
-    (val) => {
-      if (!val) return;
-      envs.value = val;
-      // 重新修改表单项
-    }
-  );
-
-  watch(
     () => props.values,
     (val) => {
-      if (!val) return;
+      form.value = {};
       val.forEach((item) => {
         let res: any = item.value;
         if (props.type === 'int' || props.type === 'float') {
@@ -124,6 +121,7 @@
 
         form.value[String(item.environment_id)] = res;
       });
+      cloneForm.value = { ...form.value };
     }
   );
 
@@ -139,19 +137,31 @@
 
   const handleSubmit = async () => {
     const isError = await formRef.value.validate();
+    console.log(isError);
     if (isError) {
       return false;
     }
 
     const list: BusinessValue[] = [];
     // 组装数据
-    envs.value.forEach((item) => {
-      const value = JSON.stringify(JSON.parse(form.value[String(item.id)]));
+    props.envs.forEach((item) => {
+      const value = form.value[String(item.id)];
       list.push({
         env_keyword: item.keyword,
         environment_id: item.id,
-        value,
+        value: String(value),
       });
+
+      // try {
+      //   const value = JSON.stringify(JSON.parse(form.value[String(item.id)]));
+      //   list.push({
+      //     env_keyword: item.keyword,
+      //     environment_id: item.id,
+      //     value,
+      //   });
+      // } catch (error) {
+      //   console.log(error);
+      // }
     });
     emit('update', [...list]);
     return true;

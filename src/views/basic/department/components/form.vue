@@ -98,14 +98,14 @@
 
   const props = defineProps<{
     departments?: TableData[];
-    form: Department;
+    data: Department;
   }>();
 
-  const form = ref({});
+  const form = ref({} as Department);
   const emit = defineEmits(['add', 'update']);
 
   watch(
-    () => props.form,
+    () => props.data,
     (val) => {
       form.value = val;
     }

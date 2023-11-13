@@ -36,7 +36,7 @@
         ref="formRef"
         :departments="departments"
         :roles="roles"
-        :form="form"
+        :data="form"
         @add="handleAdd"
         @update="handleUpdate"
       ></Form>
