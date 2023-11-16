@@ -2,6 +2,7 @@ export interface Server {
   id: number;
   keyword: string;
   name: string;
+  fullName: string;
   description: string;
   created_at: number;
   updated_at: number;

@@ -12,7 +12,7 @@
           placeholder="请选择服务"
           :scrollbar="true"
           :options="servers"
-          :field-names="{ value: 'id', label: 'name' }"
+          :field-names="{ value: 'id', label: 'fullName' }"
           @search="search"
           @change="change"
         >
@@ -92,7 +92,7 @@
     const searchd: Server[] = [];
     list.forEach((item) => {
       if (form.value.server_id !== item.id) {
-        item.name = `${item.name}(${item.keyword})`;
+        item.fullName = `${item.name}(${item.keyword})`;
         searchd.push(item);
       }
     });
@@ -123,6 +123,10 @@
 
 <style scoped lang="less">
   .service {
+    .select-input {
+      max-width: 150px;
+      width: 150px;
+    }
     .empty {
       position: absolute;
       left: 0px;
