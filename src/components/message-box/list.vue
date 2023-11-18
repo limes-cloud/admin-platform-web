@@ -71,7 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-  import { MessageListType, MessageRecord } from '@/api/basic/types/message';
+  import { MessageListType, MessageRecord } from '@/api/manager/types/message';
   import { PropType } from 'vue';
 
   const props = defineProps({

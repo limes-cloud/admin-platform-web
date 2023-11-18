@@ -163,6 +163,6 @@
 
 <script lang="ts">
   export default {
-    name: 'BasicEnv',
+    name: 'ManagerEnv',
   };
 </script>

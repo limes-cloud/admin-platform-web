@@ -1,5 +1,5 @@
 import type { RouteRecordNormalized } from 'vue-router';
-import { Menu } from '@/api/basic/types/menu';
+import { Menu } from '@/api/manager/types/menu';
 import { DEFAULT_LAYOUT } from './base';
 import { App, Component, Home } from '../types';
 

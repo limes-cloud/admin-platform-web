@@ -9,7 +9,7 @@
         <template #icon>
           <icon-plus />
         </template>
-        新建环境
+        新建部门
       </a-button>
     </a-col>
 

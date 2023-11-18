@@ -2,14 +2,14 @@
   <a-row style="margin-bottom: 16px; align-items: center">
     <a-col :span="12">
       <a-button
-        v-permission="'manager:department:add'"
+        v-permission="'manager:user:add'"
         type="primary"
         @click="emit('add')"
       >
         <template #icon>
           <icon-plus />
         </template>
-        新建环境
+        新建用户
       </a-button>
     </a-col>
 

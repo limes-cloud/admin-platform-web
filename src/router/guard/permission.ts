@@ -3,7 +3,7 @@ import NProgress from 'nprogress'; // progress bar
 
 import { useAppStore, useTabBarStore } from '@/store';
 import { TagProps } from '@/store/modules/tab-bar/types';
-import { getRoleMenuTree } from '@/api/basic/role-menu';
+import { getRoleMenuTree } from '@/api/manager/role-menu';
 import { Modal } from '@arco-design/web-vue';
 import Parser from '../routes/parser';
 import { NOT_FOUND_ROUTE, REDIRECT_MAIN } from '../routes/base';

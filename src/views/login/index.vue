@@ -115,8 +115,8 @@
   import { useStorage } from '@vueuse/core';
   import { useUserStore, useAppStore } from '@/store';
   import useLoading from '@/hooks/loading';
-  import { captcha } from '@/api/basic/auth';
-  import { LoginReq } from '@/api/basic/types/auth';
+  import { captcha } from '@/api/manager/auth';
+  import { LoginReq } from '@/api/manager/types/auth';
   // import logo from '@/assets/logo.png';
 
   const timeInter: any = ref(null);

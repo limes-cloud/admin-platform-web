@@ -2,7 +2,6 @@
   <div class="container">
     <Breadcrumb />
     <a-card class="general-card">
-      <Search @search="handleSearch"></Search>
       <Tool
         v-model:size="size"
         v-model:columns="columns"
@@ -14,17 +13,13 @@
         :loading="loading"
         :data="tableData"
         :size="size"
-        :total="total"
-        :pagination="{
-          current: searchForm.page,
-          pageSize: searchForm.page_size,
-        }"
         @add="handleTableAdd"
         @update="handleTableUpdate"
         @delete="handleDelete"
       ></Table>
       <Form
         ref="formRef"
+        :menus="tableData"
         :data="form"
         @add="handleAdd"
         @update="handleUpdate"
@@ -38,45 +33,44 @@
   import { TableData } from '@arco-design/web-vue/es/table/interface';
   import { TableCloumn, TableSize } from '@/types/global';
   import {
-    addServer,
-    deleteServer,
-    pageServer,
-    updateServer,
-  } from '@/api/configure/server';
+    addMenu,
+    deleteMenu,
+    getMenuTree,
+    updateMenu,
+  } from '@/api/manager/menu';
   import useLoading from '@/hooks/loading';
+  import { Menu } from '@/api/manager/types/menu';
   import { Message } from '@arco-design/web-vue';
-  import { PageServerReq, Server } from '@/api/configure/types/server';
   import Tool from './components/tool.vue';
   import Table from './components/table.vue';
   import Form from './components/form.vue';
-  import Search from './components/search.vue';
 
   const formRef = ref();
-  const form = ref<Server>({} as Server);
+  const form = ref<Menu>({} as Menu);
   const { setLoading } = useLoading(true);
   const loading = ref(false);
   const tableData = ref<TableData[]>();
   const size = ref<TableSize>('medium');
-  const total = ref(0);
-  const searchForm = ref<PageServerReq>({
-    page: 1,
-    page_size: 10,
-  });
   const columns = ref<TableCloumn[]>([
     {
-      title: '服务标志',
-      dataIndex: 'keyword',
-      slotName: 'keyword',
+      title: '菜单标题',
+      dataIndex: 'locale',
+      slotName: 'title',
     },
     {
-      title: '服务名称',
-      dataIndex: 'name',
-      slotName: 'name',
+      title: '菜单路由',
+      dataIndex: 'path',
+      slotName: 'path',
     },
     {
-      title: '服务描述',
-      dataIndex: 'description',
-      slotName: 'description',
+      title: '菜单类型',
+      dataIndex: 'type',
+      slotName: 'type',
+    },
+    {
+      title: '是否隐藏',
+      dataIndex: 'is_hidden',
+      slotName: 'isHidden',
     },
     {
       title: '创建时间',
@@ -99,9 +93,8 @@
   const handleGet = async () => {
     setLoading(true);
     try {
-      const { data } = await pageServer(searchForm.value);
-      tableData.value = data.list;
-      total.value = data.total;
+      const { data } = await getMenuTree();
+      tableData.value = data;
     } finally {
       setLoading(false);
     }
@@ -110,58 +103,53 @@
   handleGet();
 
   // 处理新增
-  const handleAdd = async (data: Server) => {
-    await addServer(data);
+  const handleAdd = async (data: Menu) => {
+    if (data.type === 'R') {
+      data.app = data.keyword;
+      data.component = 'Layout';
+      data.path = `/${data.app.toLocaleLowerCase()}`;
+    }
+    await addMenu(data);
     handleGet();
     Message.success('创建成功');
   };
 
   // 处理修改
-  const handleUpdate = async (data: Server) => {
-    await updateServer(data);
+  const handleUpdate = async (data: Menu) => {
+    await updateMenu(data);
     handleGet();
     Message.success('更新成功');
   };
 
   // 处理数据删除
   const handleDelete = async (id: number) => {
-    await deleteServer(id);
+    await deleteMenu(id);
     handleGet();
     Message.success('删除成功');
   };
 
-  // 处理查询
-  const handleSearch = async (req: PageServerReq) => {
-    const pageSize = searchForm.value.page_size;
-    searchForm.value = {
-      ...req,
-      page: 1,
-      page_size: pageSize,
-    };
-    handleGet();
-  };
-
   //  处理tool按钮新建
   const handleToolAdd = () => {
-    form.value = {} as Server;
+    form.value = {} as Menu;
     formRef.value.showAddDrawer();
   };
 
   // 处理table点击更新
-  const handleTableUpdate = (data: Server) => {
+  const handleTableUpdate = (data: Menu) => {
     form.value = { ...data };
     formRef.value.showUpdateDrawer();
   };
 
-  // 处理table点击添加
-  const handleTableAdd = (id: number) => {
-    form.value = {} as Server;
+  const handleTableAdd = (data: Menu) => {
+    form.value = { parent_id: data.id, app: data.app } as Menu;
     formRef.value.showAddDrawer();
   };
+
+  // 处理
 </script>
 
 <script lang="ts">
   export default {
-    name: 'ManagerServer',
+    name: 'ManagerMenu',
   };
 </script>

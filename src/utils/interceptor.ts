@@ -3,7 +3,7 @@ import type { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Message, Modal } from '@arco-design/web-vue';
 import { useUserStore } from '@/store';
 import { getToken, isLogin, setToken } from '@/utils/auth';
-import { refreshToken } from '@/api/basic/auth';
+import { refreshToken } from '@/api/manager/auth';
 
 export interface HttpResponse<T = unknown> {
   code: number;

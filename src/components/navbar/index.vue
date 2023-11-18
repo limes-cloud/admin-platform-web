@@ -141,7 +141,7 @@
   import { useDark, useToggle, useFullscreen } from '@vueuse/core';
   import { useAppStore, useUserStore } from '@/store';
   import useUser from '@/hooks/user';
-  import { Role } from '@/api/basic/types/role';
+  import { Role } from '@/api/manager/types/role';
   import App from './app.vue';
   import MessageBox from '../message-box/index.vue';
 
