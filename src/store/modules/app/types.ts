@@ -2,6 +2,7 @@ import { App, Home } from '@/router/types';
 import type { RouteRecordNormalized } from 'vue-router';
 
 export interface AppState {
+  name: string;
   theme: string;
   colorWeak: boolean;
   navbar: boolean;

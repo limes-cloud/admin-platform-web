@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import type { RouteRecordNormalized } from 'vue-router';
 import defaultSettings from '@/config/settings.json';
 import { App, Home } from '@/router/types';
+import { Setting } from '@/api/manager/types/setting';
 import { AppState } from './types';
 
 const useAppStore = defineStore('app', {
@@ -15,6 +16,7 @@ const useAppStore = defineStore('app', {
       homes: new Map(),
       isLoading: false,
       loadTitle: '',
+      name: '',
     };
     return setting;
   },
@@ -120,6 +122,13 @@ const useAppStore = defineStore('app', {
     stopLoading() {
       this.isLoading = false;
       this.loadingTitle = '';
+    },
+    setSetting(setting: Setting) {
+      this.title = setting.title;
+      this.name = setting.name;
+      this.logo = setting.logo;
+      this.desc = setting.desc;
+      this.copyright = setting.copyright;
     },
   },
 });
