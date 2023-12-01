@@ -1,10 +1,6 @@
 <template>
   <div class="app">
     <div>
-      <!-- <div class="title">
-        <span class="icon"></span>
-        <span class="text">所属服务</span>
-      </div> -->
       <div class="select-input">
         <a-select
           v-model="form.keyword"
@@ -31,7 +27,14 @@
           <FileIcon type="dir" :size="18"></FileIcon>
         </template>
         <template #extra="node">
-          <a-dropdown position="bottom">
+          <a-dropdown
+            v-if="
+              $hasPermission('resource:directory:add') ||
+              $hasPermission('resource:directory:update') ||
+              $hasPermission('resource:directory:delete')
+            "
+            position="bottom"
+          >
             <IconMoreVertical
               style="
                 position: absolute;
@@ -42,13 +45,22 @@
               "
             />
             <template #content>
-              <a-doption @click="showAddDirectory(node)">
+              <a-doption
+                v-permission="'resource:directory:add'"
+                @click="showAddDirectory(node)"
+              >
                 <span class="file-font-blue">新建目录</span>
               </a-doption>
-              <a-doption @click="showUpdateDirectory(node)">
+              <a-doption
+                v-permission="'resource:directory:update'"
+                @click="showUpdateDirectory(node)"
+              >
                 <span class="file-font-blue">修改目录</span>
               </a-doption>
-              <a-doption @click="handleDelDirectory(node)">
+              <a-doption
+                v-permission="'resource:directory:delete'"
+                @click="handleDelDirectory(node)"
+              >
                 <span class="file-font-red">删除目录</span>
               </a-doption>
             </template>

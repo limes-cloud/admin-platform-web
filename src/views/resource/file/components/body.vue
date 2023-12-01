@@ -1,6 +1,10 @@
 <template>
   <div class="body">
-    <div v-if="fileList.length" style="height: 100%">
+    <div
+      v-if="fileList.length"
+      v-permission="'resource:file:query'"
+      style="height: 100%"
+    >
       <div v-if="showCard" class="card content">
         <div v-for="file in fileList" :key="file.id" class="item">
           <div
@@ -110,29 +114,39 @@
                 <icon-copy v-copy="$rurl(record.src)" size="15" />
               </span>
 
-              <template v-if="$hasPermission('manager:user:delete')">
-                <a-popconfirm
-                  content="您确认要下载此文件？"
-                  @ok="handleDownloadFile(record.src)"
-                >
-                  <span style="color: #165dff">
-                    <icon-cloud-download size="15" />
-                  </span>
-                </a-popconfirm>
-              </template>
+              <a-popconfirm
+                content="您确认要下载此文件？"
+                @ok="handleDownloadFile($rurl(record.src))"
+              >
+                <span style="color: #165dff">
+                  <icon-cloud-download size="15" />
+                </span>
+              </a-popconfirm>
 
-              <template v-if="$hasPermission('manager:user:delete')">
-                <a-popconfirm
-                  v-if="record.id != 1"
-                  content="您确认删除此文件"
-                  type="warning"
-                  @ok="emit('deleteFile', record.id)"
-                >
-                  <span style="color: #f53f3f">
-                    <icon-delete size="15" />
-                  </span>
-                </a-popconfirm>
-              </template>
+              <span
+                style="color: #ff7d00"
+                @click="
+                  () => {
+                    curFile = record;
+                    submitForm.name = record.name;
+                    updateVisible = true;
+                  }
+                "
+              >
+                <icon-edit size="15" />
+              </span>
+
+              <a-popconfirm
+                v-if="record.id != 1"
+                v-permission="'resource:file:delete'"
+                content="您确认删除此文件"
+                type="warning"
+                @ok="emit('deleteFile', record.id)"
+              >
+                <span style="color: #f53f3f">
+                  <icon-delete size="15" />
+                </span>
+              </a-popconfirm>
             </a-space>
           </template>
         </a-table>
@@ -219,6 +233,30 @@
         :src="$rurl(curFile.src)"
       />
     </a-modal>
+
+    <a-modal
+      v-model:visible="updateVisible"
+      simple
+      title="修改目录"
+      @cancel="updateVisible = false"
+      @before-ok="handleUpdateFile"
+    >
+      <a-form :model="submitForm" layout="vertical">
+        <a-form-item
+          field="name"
+          label="请输入文件夹名称"
+          :rules="[
+            {
+              required: true,
+              message: '文件名称必填项',
+            },
+          ]"
+          :validate-trigger="['change', 'input']"
+        >
+          <a-input v-model="submitForm.name" placeholder="请输入" />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -228,7 +266,12 @@
   import { ref, watch } from 'vue';
   import FileIcon from './icon.vue';
 
-  const emit = defineEmits(['deleteFile', 'selectFile', 'pageChange']);
+  const emit = defineEmits([
+    'deleteFile',
+    'selectFile',
+    'pageChange',
+    'updateFile',
+  ]);
 
   const props = defineProps<{
     total: number;
@@ -240,12 +283,16 @@
   const playVideoVisible = ref(false);
   const playMusicVisible = ref(false);
   const showImageVisible = ref(false);
+  const updateVisible = ref(false);
   const tipStyle = { fontSize: '12px' };
   const curFile = ref<File>({} as File);
   const selectd = ref<number[]>([]);
   const isSelectd = (id: number) => {
     return selectd.value.indexOf(id) !== -1;
   };
+  const submitForm = ref({
+    name: '',
+  });
 
   const page = ref({
     current: 1,
@@ -283,6 +330,11 @@
       width: 120,
     },
   ];
+
+  const handleUpdateFile = () => {
+    emit('updateFile', curFile.value.id, submitForm.value.name);
+    return true;
+  };
 
   const pageChange = (current: number) => {
     page.value.current = current;
@@ -383,7 +435,11 @@
     { deep: true }
   );
   const handleDownloadFile = (src: string) => {
-    // console.log('todo download');
+    const link = document.createElement('a');
+    link.href = src;
+    link.target = '_blank';
+    link.download = src.substring(src.lastIndexOf('/'));
+    link.click();
   };
 </script>
 

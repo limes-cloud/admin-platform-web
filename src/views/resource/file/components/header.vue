@@ -2,6 +2,7 @@
   <div class="header">
     <template v-if="!disable">
       <a-badge
+        v-permission="'resource:file:delete'"
         class="badge"
         :offset="[-10, 2]"
         :count="selectdLength"
@@ -22,7 +23,7 @@
         </div>
       </a-badge>
 
-      <div class="icon">
+      <div v-permission="'resource:file:query'" class="icon">
         <a-tooltip content="列表展示" mini :content-style="tipStyle">
           <span :class="!showCard ? 'active' : ''" @click="changeShowCard"
             ><icon-mind-mapping size="22" :stroke-width="2"
@@ -30,7 +31,7 @@
         </a-tooltip>
       </div>
 
-      <div class="icon">
+      <div v-permission="'resource:file:query'" class="icon">
         <a-tooltip content="图标展示" mini :content-style="tipStyle">
           <span :class="showCard ? 'active' : ''" @click="changeShowCard"
             ><icon-apps size="22" :stroke-width="2"
@@ -38,7 +39,7 @@
         </a-tooltip>
       </div>
 
-      <div class="icon">
+      <div v-permission="'resource:file:upload:group'" class="icon">
         <a-tooltip content="上传文件" mini :content-style="tipStyle">
           <span @click="uploadFileVisible = true"
             ><icon-upload size="22" :stroke-width="2"
@@ -46,7 +47,7 @@
         </a-tooltip>
       </div>
 
-      <div class="search-input">
+      <div v-permission="'resource:file:query'" class="search-input">
         <a-input-search
           :style="{ width: '180px' }"
           placeholder="请输入文件名"
