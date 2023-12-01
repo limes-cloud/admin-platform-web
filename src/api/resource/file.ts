@@ -28,9 +28,7 @@ export function updateFile(req: UpdateFileReq) {
 }
 
 export function deleteFile(req: DeleteFileReq) {
-  return axios.post<PageFileRes>(`/resource/v1/file`, {
-    params: req,
-  });
+  return axios.post<PageFileRes>(`/resource/v1/file`, req);
 }
 
 export default null;

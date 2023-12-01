@@ -137,7 +137,6 @@
               </span>
 
               <a-popconfirm
-                v-if="record.id != 1"
                 v-permission="'resource:file:delete'"
                 content="您确认删除此文件"
                 type="warning"

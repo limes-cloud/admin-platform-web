@@ -240,6 +240,7 @@
       }
     }
 
+    console.log(pArrr);
     pArrr.forEach((fn: Promise<AxiosResponse<any, any>>, index: number) => {
       fn.then((res) => {
         onProgress(Math.ceil((index + 1) / pArrr.length));
