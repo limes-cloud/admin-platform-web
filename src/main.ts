@@ -38,6 +38,7 @@ setting()
     if (res.data.logo) {
       app.config.globalProperties.$logo = res.data.logo;
     }
+    document.title = res.data.title;
     app.mount('#app');
   })
   .catch((data) => {
