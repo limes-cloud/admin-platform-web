@@ -91,9 +91,9 @@
 </script>
 
 <style lang="less" scoped>
-  .container {
-    flex: 1;
-  }
+  // .container {
+  //   flex: 1;
+  // }
   .general-card {
     .left {
       width: 250px;

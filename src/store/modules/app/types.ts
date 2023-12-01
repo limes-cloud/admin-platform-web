@@ -23,5 +23,7 @@ export interface AppState {
   title: string;
   desc: string;
   logo: string;
+  isLoading: boolean;
+  loadTitle: string;
   [key: string]: unknown;
 }

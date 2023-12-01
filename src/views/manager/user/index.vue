@@ -198,12 +198,6 @@
       page: 1,
       page_size: pageSize,
     };
-    // if (req.time) {
-    //   const satrt = req.time[0];
-    //   const end = req.time[1];
-    //   searchForm.value.start_time = satrt;
-    //   searchForm.value.end_time = end;
-    // }
 
     handleGet();
   };

@@ -11,7 +11,7 @@ import {
 } from 'echarts/components';
 import Chart from './chart/index.vue';
 import Breadcrumb from './breadcrumb/index.vue';
-
+import SvgIcon from './svg/index.vue';
 // Manually introduce ECharts modules to reduce packing size
 
 use([
@@ -31,5 +31,6 @@ export default {
   install(Vue: App) {
     Vue.component('Chart', Chart);
     Vue.component('Breadcrumb', Breadcrumb);
+    Vue.component('SvgIcon', SvgIcon);
   },
 };

@@ -13,6 +13,8 @@ const useAppStore = defineStore('app', {
       apps: [],
       app: '',
       homes: new Map(),
+      isLoading: false,
+      loadTitle: '',
     };
     return setting;
   },
@@ -110,6 +112,14 @@ const useAppStore = defineStore('app', {
     },
     setCurrentApp(app?: string) {
       this.app = app || this.apps[0].keyword;
+    },
+    startLoading(title: string) {
+      this.isLoading = true;
+      this.loadingTitle = title;
+    },
+    stopLoading() {
+      this.isLoading = false;
+      this.loadingTitle = '';
     },
   },
 });

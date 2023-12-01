@@ -22,4 +22,26 @@ export const regexUrl = new RegExp(
   'i'
 );
 
+interface Node {
+  id: number;
+  children: Node[];
+}
+
+export const findNode = (root: Node, id: number): Node | null => {
+  if (root === null || root.id === id) {
+    return root;
+  }
+
+  if (root.children) {
+    for (let i = 0; i < root.children.length; i += 1) {
+      const node = findNode(root.children[i], id);
+      if (node !== null) {
+        return node;
+      }
+    }
+  }
+
+  return null;
+};
+
 export default null;

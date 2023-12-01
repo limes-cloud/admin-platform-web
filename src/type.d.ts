@@ -1,10 +1,11 @@
 import Vue from 'vue';
 
+type FormatUrlFunc = (i: string, w?: number, h?: number) => string;
 type FormatFunc = (string) => string;
 type DetermineFunc = (string) => boolean;
 declare module 'vue' {
   export interface ComponentCustomProperties {
-    $formatUrl: FormatFunc;
+    $rurl: FormatUrlFunc;
     $logo: string;
     $parseTime: FormatFunc;
     $formatTime: FormatFunc;
