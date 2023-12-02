@@ -175,9 +175,10 @@
     <a-modal
       v-model:visible="playVideoVisible"
       width="480px"
+      :modal-style="{ overflow: 'hidden' }"
       :hide-cancel="true"
       :footer="false"
-      :body-style="{ padding: 0 }"
+      :body-style="{ padding: 0, lineHeight: '0px !important' }"
       unmount-on-close
     >
       <template #title>
@@ -219,9 +220,10 @@
     <a-modal
       v-model:visible="showImageVisible"
       width="480px"
+      :modal-style="{ overflow: 'hidden' }"
       :hide-cancel="true"
       :footer="false"
-      :body-style="{ padding: 0 }"
+      :body-style="{ padding: 0, lineHeight: '0px !important' }"
     >
       <template #title>
         <div>{{ curFile.name }}</div>

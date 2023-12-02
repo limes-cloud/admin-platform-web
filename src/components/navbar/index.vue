@@ -39,7 +39,7 @@
           </a-button>
         </a-tooltip>
       </li>
-      <li>
+      <!-- <li>
         <a-tooltip content="消息通知">
           <div class="message-box-trigger">
             <a-badge :count="9" dot>
@@ -65,7 +65,7 @@
             <message-box />
           </template>
         </a-popover>
-      </li>
+      </li> -->
       <li>
         <a-tooltip
           :content="isFullscreen ? '点击退出全屏模式' : '点击切换全屏模式'"
@@ -112,17 +112,17 @@
             </a-dsubmenu>
 
             <a-doption>
-              <a-space @click="$router.push({ name: 'Info' })">
+              <a-space @click="showUserinfoVisible = true">
                 <icon-user />
                 <span> 个人中心 </span>
               </a-space>
             </a-doption>
-            <a-doption>
+            <!-- <a-doption>
               <a-space @click="$router.push({ name: 'Setting' })">
                 <icon-settings />
                 <span> 个人设置 </span>
               </a-space>
-            </a-doption>
+            </a-doption> -->
             <a-doption>
               <a-space @click="handleLogout">
                 <icon-export />
@@ -134,6 +134,10 @@
       </li>
     </ul>
   </div>
+  <Userinfo
+    :show="showUserinfoVisible"
+    @cancel="showUserinfoVisible = false"
+  ></Userinfo>
 </template>
 
 <script lang="tsx" setup>
@@ -143,8 +147,10 @@
   import useUser from '@/hooks/user';
   import { Role } from '@/api/manager/types/role';
   import App from './app.vue';
+  import Userinfo from '../userinfo/index.vue';
   import MessageBox from '../message-box/index.vue';
 
+  const showUserinfoVisible = ref(false);
   const appStore = useAppStore();
   const userStore = useUserStore();
 

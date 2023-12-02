@@ -1,5 +1,12 @@
 import axios from 'axios';
-import { PageUserReq, PageUserRes, User } from './types/user';
+import {
+  ChangePasswordCaptchRes,
+  ChangePasswordReq,
+  PageUserReq,
+  PageUserRes,
+  UpdateUserbasicReq,
+  User,
+} from './types/user';
 
 export function pageUser(req: PageUserReq) {
   return axios.get<PageUserRes>('/manager/v1/users', { params: { ...req } });
@@ -15,6 +22,10 @@ export function addUser(data: User) {
 
 export function updateUser(data: User) {
   return axios.put('/manager/v1/user', data);
+}
+
+export function updateUserBasic(data: UpdateUserbasicReq) {
+  return axios.put('/manager/v1/user/basic', data);
 }
 
 export function deleteUser(id: number) {
@@ -35,6 +46,16 @@ export function offlineUser(id: number) {
 
 export function resetPassword(id: number) {
   return axios.post('/manager/v1/user/password/reset', { id });
+}
+
+export function changePassword(req: ChangePasswordReq) {
+  return axios.post('/manager/v1/user/password/change', req);
+}
+
+export function sendChangePasswordEmail() {
+  return axios.post<ChangePasswordCaptchRes>(
+    '/manager/v1/user/password/captcha'
+  );
 }
 
 export default null;

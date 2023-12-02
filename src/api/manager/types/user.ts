@@ -37,7 +37,23 @@ export interface PageUserReq {
   page_size: number;
 }
 
+export interface UpdateUserbasicReq {
+  nickname: string;
+  gender: string;
+}
+
 export interface PageUserRes {
   list: User[];
   total: number;
+}
+
+export interface ChangePasswordReq {
+  password: string;
+  captcha_id: string;
+  captcha: string;
+}
+
+export interface ChangePasswordCaptchRes {
+  uuid: string;
+  expire: number;
 }
