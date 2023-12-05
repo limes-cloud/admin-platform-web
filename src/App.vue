@@ -63,9 +63,6 @@
   .arco-table-td {
     color: rgb(var(--gray-8)) !important;
   }
-  .general-card {
-    padding-top: 20px;
-  }
   .arco-tabs-nav-type-capsule {
     justify-content: flex-start !important;
   }
